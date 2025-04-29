@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    this is weather app
+    <div class="container">
+        <ul id="cont">
+            <!-- <li>
+                <h id="title"></h>
+                <h id="author"></h>
+                <h id="url"></h>
+                <h id="content"></h>
+            </li> -->
+        </ul>
+    </div>
+</body>
+</html>
+<script>
+    // https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
+    function getrequest(){
+        console.log("you have clicked the button")
+        var xhr = new XMLHttpRequest();
+
+        // xhr.open('GET','_khush.txt',true);
+        
+        xhr.open('GET',`http://api.weatherstack.com/current?access_key=5f3318c9cfab7199f8e59ff6b187a880&query=${place}`,true);
+        // xhr.open('GET','https://dummyjson.com/products',true);
+
+
+        xhr.onprogress = function(){
+            console.log("on progress")
+        }
+        
+        xhr.onload = function(){
+            if(this.status==200){
+                console.log(this.responseText)
+                var data = JSON.parse(this.responseText)
+                console.log(data)
+                var current = data.current;
+                console.log(current)
+                // console.log("this is products")
+                console.log(`${current.temperature} ${current.weather_descriptions[0]}`)
+                let li = `<li>
+                <h id="title"><b>Temp:</b>${current.temperature}</h><br>
+                <h id="author"><b>desc:</b>${current.weather_descriptions[0]}</h><br>
+            </li>`;
+            document.getElementById('cont').innerHTML += li;
+            }
+            else{
+                console.log("this is an error")
+            }
+        }
+        
+        xhr.send()
+        console.log("we are done")
+
+    }
+    let place = 'Hyderabad';
+    getrequest()
+</script>
